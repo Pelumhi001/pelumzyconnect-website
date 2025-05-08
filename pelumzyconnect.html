@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pelumzy Connect - Login</title>
+  <link rel="stylesheet" href="pelumzy-connect.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Welcome to Pelumzy Connect</h2>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username or Email</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="password" name="password" placeholder="Enter your password" required />
+          <span class="toggle-password" onclick="togglePassword()">🔒</span>
+        </div>
+      </div>
+
+      <button type="submit">Login</button>
+      <p class="signup-link">Don't have an account? <a href="pelumzy-connect2.html">Sign up</a></p>
+    </form>
+  </div>
+
+  <!-- Firebase Script (place it here) -->
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyA2oSW4ZbuQgTi-JgGVsHB0tMPuqKciCB0",
+      authDomain: "pelumzyconnecet.firebaseapp.com",
+      projectId: "pelumzyconnecet",
+      storageBucket: "pelumzyconnecet.firebasestorage.app",
+      messagingSenderId: "253701171126",
+      appId: "1:253701171126:web:958e36fee219b841b0c317",
+      measurementId: "G-SK2W03R0XH"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Handle Login
+    document.getElementById("loginForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("username").value.trim();  // Get the email
+      const password = document.getElementById("password").value.trim();  // Get the password
+
+      // Validate email format
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address.");
+        return;  // Prevent form submission
+      }
+
+      // Ensure password is not empty
+      if (password === "") {
+        alert("Please enter your password.");
+        return;  // Prevent form submission
+      }
+
+      // Firebase login with email and password
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Login success
+          alert("Login successful!");
+          window.location.href = "dashboard.html"; // Redirect to the dashboard after login
+        })
+        .catch((error) => {
+          // Handle login errors
+          alert("Error: " + error.message);
+        });
+    });
+  </script>
+
+  <script src="pelumzy-connect.js"></script>
+</body>
+</html>

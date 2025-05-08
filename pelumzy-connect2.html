@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pelumzy Connect - Sign Up</title>
+  <link rel="stylesheet" href="pelumzy-connect2.css" />
+</head>
+<body>
+  <div class="login-container">
+    <h2>Create Your Account</h2>
+    <form id="signupForm">
+      <div class="form-group">
+        <label for="newUsername">Username</label>
+        <input type="text" id="newUsername" name="newUsername" placeholder="Choose a username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+
+      <div class="form-group">
+        <label for="newPassword">Password</label>
+        <div class="password-wrapper">
+          <input type="password" id="newPassword" name="newPassword" placeholder="Create a password" required />
+          <span class="toggle-password" onclick="toggleSignupPassword()">🔒</span>
+        </div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+      <p class="signup-link">Already have an account? <a href="pelumzyconnect.html">Login</a></p>
+    </form>
+  </div>
+  
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA2oSW4ZbuQgTi-JgGVsHB0tMPuqKciCB0",
+      authDomain: "pelumzyconnecet.firebaseapp.com",
+      projectId: "pelumzyconnecet",
+      storageBucket: "pelumzyconnecet.firebasestorage.app",
+      messagingSenderId: "253701171126",
+      appId: "1:253701171126:web:958e36fee219b841b0c317",
+      measurementId: "G-SK2W03R0XH"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Handle Sign Up
+    document.getElementById("signupForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const username = document.getElementById("newUsername").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("newPassword").value.trim();
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          // Store the username and email in localStorage (to pass to the application letter page)
+          localStorage.setItem("username", username);
+          localStorage.setItem("email", email);
+
+          // Redirect to application-letter.html
+          window.location.href = "application-letter.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    });
+
+    // Password visibility toggle function
+    window.toggleSignupPassword = function () {
+      const passwordInput = document.getElementById("newPassword");
+      const toggleIcon = document.querySelector(".toggle-password");
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.textContent = "🔓";
+      } else {
+        passwordInput.type = "password";
+        toggleIcon.textContent = "🔒";
+      }
+    };
+  </script>
+
+  <script src="pelumzy-connect2.js"></script>
+</body>
+</html>

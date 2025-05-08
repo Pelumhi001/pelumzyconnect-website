@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pelumzy Connect - Application Letter</title>
+  <link rel="stylesheet" href="pelumzy-connect2.css" />
+  <style>
+    .application-letter {
+      margin-top: 20px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      background: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+    .print-button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="application-letter">
+    <h3>Welcome to Pelumzy Connect</h3>
+    <p>Dear <strong id="username"></strong>,</p>
+    <p>Thank you for signing up on Pelumzy Connect. Below is your application confirmation:</p>
+    <p><strong>Name:</strong> <span id="usernameDisplay"></span></p>
+    <p><strong>Email:</strong> <span id="emailDisplay"></span></p>
+    <p>We are glad to have you on board. Stay connected!</p>
+    <p>Sincerely,<br>Pelumzy Connect Team</p>
+    <button class="print-button" onclick="window.print()">Print Application Letter</button>
+  </div>
+
+  <script>
+    // Get data from localStorage and display it
+    const username = localStorage.getItem("username");
+    const email = localStorage.getItem("email");
+
+    document.getElementById("username").textContent = username;
+    document.getElementById("usernameDisplay").textContent = username;
+    document.getElementById("emailDisplay").textContent = email;
+  </script>
+</body>
+</html>
